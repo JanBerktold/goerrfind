@@ -6,25 +6,55 @@ import (
 )
 
 type NameTest struct {
-	Name   string
-	Func   *ast.Ident
+	Query  string
+	Func   *ast.FuncDecl
 	Result bool
 }
 
 var Tests = []NameTest{
 	NameTest{
-		Name: "main",
-		Func: &ast.Ident{
-			Name: "main",
+		Query: "main",
+		Func: &ast.FuncDecl{
+			Name: &ast.Ident{
+				Name:    "main",
+				NamePos: 20,
+			},
 		},
 		Result: true,
 	},
+	NameTest{
+		Query: "help",
+		Func: &ast.FuncDecl{
+			Name: &ast.Ident{
+				Name:    "main",
+				NamePos: 20,
+			},
+		},
+		Result: false,
+	},
+	/*NameTest{
+		Query: "Router.Get",
+		Func: &ast.FuncDecl{
+			Name: &ast.Ident{
+				Name:    "Get",
+				NamePos: 20,
+			},
+			Type: &ast.FuncType{
+				Func: 40,
+				Params: &ast.FieldList{
+					List: []*ast.Field{
+					},
+				},
+			},
+		},
+		Result: false,
+	},*/
 }
 
 func TestNameMatching(t *testing.T) {
 	for _, test := range Tests {
-		if funcNameEqual(test.Name, test.Func) != test.Result {
-			t.Fatalf("Test with name %q failed. Expected: %v", test.Name, test.Result)
+		if funcNameEqual(test.Query, test.Func) != test.Result {
+			t.Fatalf("Test with query %q failed. Expected: %v", test.Query, test.Result)
 		}
 	}
 }
