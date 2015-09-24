@@ -4,6 +4,10 @@ import (
 	"errors"
 )
 
+const (
+	Err1 = errors.New("error 1")
+)
+
 func testSwitch(a int) error {
 	err := errors.New("yagdg")
 	switch a {
@@ -22,9 +26,10 @@ func testIf() error {
 	if 1 == 2 {
 		return nil
 	} else if 2 == 1 {
+		err = errors.New("another")
 		return err
 	} else {
-		return nil
+		return Err1
 	}
 	return errors.New("hey")
 }

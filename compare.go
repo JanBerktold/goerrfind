@@ -28,10 +28,12 @@ func funcNameEqual(name string, fun *ast.FuncDecl) bool {
 }
 
 func paramIndexByType(f *ast.FuncType, t string) int {
-	for index, field := range f.Results.List {
-		if ident, ok := field.Type.(*ast.Ident); ok {
-			if ident.Name == t {
-				return index
+	if f.Results != nil && f.Results.List != nil {
+		for index, field := range f.Results.List {
+			if ident, ok := field.Type.(*ast.Ident); ok {
+				if ident.Name == t {
+					return index
+				}
 			}
 		}
 	}
